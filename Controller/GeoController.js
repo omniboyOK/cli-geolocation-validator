@@ -28,6 +28,31 @@ module.exports = {
       );
     });
   },
+  getLocality: async function (point, city) {
+    if (!point || !city) {
+      return "Not enough parameters";
+    }
+    if (!point.lat || point.long) {
+      return "Missing geolocation";
+    }
+    let result = await global.db
+      .collection("localities")
+      .findOne({ name: city });
+    let locality = "Not Found";
+    if (result) {
+      const { features } = result;
+      point = turf.point([point.lon, point.lat]);
+      features.forEach((feature) => {
+        let polygon = turf.polygon(feature.geometry.coordinates);
+        if (pointInPolygon(point, polygon)) {
+          locality = feature.properties.barrio;
+        }
+      });
+    } else {
+      return "No City found";
+    }
+    return locality;
+  },
   saveLocality: function (locality) {
     global.db.collection("localities").save(locality, function (err, result) {
       if (err) {
