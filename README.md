@@ -6,6 +6,8 @@ This program let you input address directions and output a list of results from 
 Then you can input a country to validate the address position is actually inside that country.
 
 ### How To
+Use `npm install` to download all modules
+
 Use `npm start` in the terminal to start the program
 
 Choose the function you want to try
@@ -21,3 +23,7 @@ Doesn't matter if they are Polygon or MultiPolygon, the program will try every p
 * Waterfall validation
 * Fast Feature Collection Import
 * Feature Import
+
+### Packages used
+* turf
+* nominatim-geocoder
