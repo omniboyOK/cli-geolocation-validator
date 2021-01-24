@@ -27,6 +27,18 @@ module.exports = {
       );
     });
   },
+  saveLocality: function (locality) {
+    global.db.collection("localities").save(locality, function (err, result) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log(
+        `%c Localidad agregada correctamente`,
+        "color: green"
+      );
+    });
+  },
   validateInCountry: async function (geolocation, country) {
     if (!geolocation || !geolocation.lat || !geolocation.lon || !country) {
       return "Invalid parameters";
