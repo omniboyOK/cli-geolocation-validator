@@ -24,6 +24,10 @@ Doesn't matter if they are Polygon or MultiPolygon, the program will try every p
 * Fast Feature Collection Import
 * Feature Import
 
+## Test
+
+run `npm test`
+
 ### Packages used
 * turf
 * nominatim-geocoder
