@@ -30,14 +30,12 @@ describe("GeoController", function () {
   });
 
   it("Validate: Washington MultiPolygon", async function () {
-    this.timeout(25000);
     let point = { lat: 38.8949924, lon: -77.0365581 }; // Washington
     let result = await GeoController.validateInCountry(point, "USA");
     assert.equal(result, true, 'Washington no puede ser fuera de USA');
   });
 
   it("Validate: CAF Polygon", async function () {
-    this.timeout(25000)
     let point = { lat: 5.5802832, lon: 16.5490651 }; // Africa
     let result = await GeoController.validateInCountry(point, "CAF");
     assert.equal(result, true, 'Fuera de cobertura');
