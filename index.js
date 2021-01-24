@@ -8,27 +8,27 @@ database.init(Init);
 var savedPoint = null;
 
 function Init() {
-  let initialOptions = ["Obtener posicion de dirección"];
+  let initialOptions = ["Get address geolocation"];
   if (savedPoint) {
-    initialOptions.push("Validar Posicion en un país");
+    initialOptions.push("Validate point in country");
   }
   inquirer
     .prompt([
       {
         type: "list",
-        message: "Que proceso debo correr?",
+        message: "What should I do?",
         name: "main",
         choices: initialOptions,
       },
     ])
     .then(async (answer) => {
       switch (answer.main) {
-        case "Obtener posicion de dirección":
+        case "Get address geolocation":
           inquirer
             .prompt([
               {
                 name: "address",
-                message: "Escribe una dirección\n",
+                message: "Write an address\n",
                 default: "",
               },
             ])
@@ -42,13 +42,13 @@ function Init() {
               }
             });
           return;
-        case "Validar Posicion en un país":
+        case "Validate point in country":
           inquirer
             .prompt([
               {
                 name: "country",
                 message:
-                  "Escribe un codigo de país para realizar la busqueda ARG\n",
+                  "Input a country code in ISO3 to validate ex: ARG\n",
                 default: "ARG",
               },
             ])
@@ -58,12 +58,12 @@ function Init() {
                 answer.country
               );
               if (result) {
-                console.log("La direccion esta en el area de cobertura");
+                console.log("Addres is inside of country bounds".green);
               }
             });
           break;
         default:
-          console.log("Volviendo al menu principal");
+          console.log("Going back to home menu");
           return Init();
       }
     });
@@ -80,7 +80,7 @@ function selectValidAddress(list) {
     .prompt([
       {
         type: "list",
-        message: "Elige una direccion entre los resultados",
+        message: "Choose the address that fit your search",
         name: "choice",
         choices: options,
       },
@@ -97,7 +97,7 @@ function selectValidAddress(list) {
           {
             name: "country",
             message:
-              "Escribe un codigo de país para realizar la busqueda ARG\n",
+              "Input a country code in ISO3 to validate ex: ARG\n",
             default: "ARG",
           },
         ])
@@ -107,9 +107,9 @@ function selectValidAddress(list) {
             answer.country
           );
           if (result === true) {
-            console.log("La direccion esta en el area de cobertura".green);
+            console.log("Addres is inside of country bounds".green);
           } else {
-            console.log("La direccion esta fuera del area de cobertura".red);
+            console.log("Addres is outside of country bounds".red);
           }
           Init();
         });

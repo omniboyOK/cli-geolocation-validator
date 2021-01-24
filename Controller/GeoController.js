@@ -1,3 +1,4 @@
+require("colors");
 const Nominatim = require("nominatim-geocoder");
 const geocoder = new Nominatim();
 const turf = require("@turf/turf");
@@ -11,7 +12,7 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          return result?.properties?.ADMIN || "Ciudad no encontrada";
+          return result?.properties?.ADMIN || "Country was not found";
         }
       });
   },
@@ -22,7 +23,7 @@ module.exports = {
         return;
       }
       console.log(
-        `%c El país ${country.properties.ADMIN} se guardo correctamente`,
+        `%c Country ${country.properties.ADMIN} saved`,
         "color: green"
       );
     });
@@ -33,10 +34,7 @@ module.exports = {
         console.error(err);
         return;
       }
-      console.log(
-        `%c Localidad agregada correctamente`,
-        "color: green"
-      );
+      console.log(`Locality saved`.green);
     });
   },
   validateInCountry: async function (geolocation, country) {
@@ -47,7 +45,7 @@ module.exports = {
       .collection("countries")
       .findOne({ "properties.ISO_A3": country });
     if (!result) {
-      return "No se encontro el país en la base de datos";
+      return "No results found";
     }
     let polygons = [];
     let point = turf.point([geolocation.lon, geolocation.lat]);
@@ -77,7 +75,7 @@ module.exports = {
     if (result) {
       return { lat: result?.lat, lng: result?.lng };
     } else {
-      return "No se pudo reconocer la dirección\n";
+      return "No results\n";
     }
   },
 };
