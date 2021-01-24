@@ -1,16 +1,21 @@
 const mongo = require("mongodb").MongoClient;
 
-mongo.connect(
-  process.env.DATABASE,
-  {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
+module.exports = {
+  init: function (callback) {
+    mongo.connect(
+      "mongodb://127.0.0.1:27017/",
+      {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      },
+      function (err, connection) {
+        if (err) {
+          console.log(err);
+        }
+        global.db = connection.db("geolocation");
+        console.log("Conectado a la base de datos\n");
+        callback();
+      }
+    );
   },
-  function (err, connection) {
-    if (err) {
-      console.log(err);
-    }
-    global.db = connection.db(database);
-    console.log("%c Conectado a la base de datos", "color: green");
-  }
-);
+};
