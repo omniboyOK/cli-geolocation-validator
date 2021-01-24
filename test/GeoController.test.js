@@ -8,37 +8,37 @@ describe("GeoController", function () {
   });
 
   it("Search: Avenida Escalada", async function () {
-    let results = await GeoController.getGeo("Gregorio de laferrere 4958");
-    assert.isArray(results, "La busqueda no devolvio un array");
+    let results = await GeoController.getGeo("Avenida Escalada 4850");
+    assert.isArray(results, "Result is not an array");
     assert.include(
       results[0].display_name,
       "Argentina",
-      "La direccion no dice Argentina"
+      "Address isn't in Argentina"
     );
   });
 
   it("Search: null", async function () {
     let results = await GeoController.getGeo(null);
-    assert.isArray(results, "La busqueda no devolvio un array");
+    assert.isArray(results, "Result is not an array");
   });
 
   it("Validate: Argentina en Argentina", async function () {
     this.timeout(25000);
-    let point = { lat: -34.65523542857143, lon: -58.482973 }; // Gregorio de laferrere 4958
+    let point = { lat: -34.6798778, lon: -58.4529118 }; // Avenida Escalada 4850
     let result = await GeoController.validateInCountry(point, "ARG");
-    assert.equal(result, true, 'Argentina no puede estar fuera de cobertura');
+    assert.equal(result, true, 'Argentina Address is out of bonds');
   });
 
   it("Validate: Washington MultiPolygon", async function () {
     let point = { lat: 38.8949924, lon: -77.0365581 }; // Washington
     let result = await GeoController.validateInCountry(point, "USA");
-    assert.equal(result, true, 'Washington no puede ser fuera de USA');
+    assert.equal(result, true, 'Washington Address is out of bonds');
   });
 
   it("Validate: CAF Polygon", async function () {
     let point = { lat: 5.5802832, lon: 16.5490651 }; // Africa
     let result = await GeoController.validateInCountry(point, "CAF");
-    assert.equal(result, true, 'Fuera de cobertura');
+    assert.equal(result, true, 'Address is out of bonds');
   });
 
   after(function (done) {
